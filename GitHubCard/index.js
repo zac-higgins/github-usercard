@@ -53,3 +53,62 @@ const followersArray = [];
   luishrd
   bigknell
 */
+
+//pulling my GitHub info from api
+const zacGitHub = axios.get('https://api.github.com/users/zac-higgins')
+  .then(response => {
+    console.log(response);
+    cards.appendChild(createCard(response.data));
+  });
+
+function createCard(obj){
+
+  //creating DOM elements
+  const newCard = document.createElement('div');
+  const profilePic = document.createElement('img');
+  const cardInfo = document.createElement('div');
+  const name = document.createElement('h3');
+  const userName = document.createElement('p');
+  const location = document.createElement('p');
+  const profile = document.createElement('p');
+  const link = document.createElement('a');
+  const followers = document.createElement('p');
+  const following = document.createElement('p');
+  const bio = document.createElement('p');      
+
+  //adding classes to DOM elements
+  newCard.classList.add('card');
+  cardInfo.classList.add('card-info');
+  name.classList.add('name');
+  userName.classList.add('username');
+
+  //appending the element children to parents
+  newCard.appendChild(profilePic);
+  newCard.appendChild(cardInfo);
+  cardInfo.appendChild(name);
+  cardInfo.appendChild(userName);
+  cardInfo.appendChild(location);
+  cardInfo.appendChild(profile);
+  profile.appendChild(link);
+  cardInfo.appendChild(followers);
+  cardInfo.appendChild(following);  
+  cardInfo.appendChild(bio);
+  
+  //loading content from api response
+  name.textContent = obj.name;
+  profilePic.src = obj.avatar_url;
+  userName.textContent = obj.login;
+  location.textContent = obj.location;
+  link.setAttribute('href', obj.html_url);
+  link.innerText = "/zac-higgins";
+  profile.textContent = `Profile: ${link}`;
+  followers.textContent = `Followers: ${obj.followers}`;
+  following.textContent = `Following: ${obj.following}`;
+  bio.textContent = obj.bio;  
+
+  return newCard;
+}
+
+const cards = document.querySelector('.cards');
+//cards.appendChild(createCard(zacGitHub));
+
